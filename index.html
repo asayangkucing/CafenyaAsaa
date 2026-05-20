@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asa Cafe</title>
+    <link rel="icon" type="image/png" href="logo2.PNG">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+SAS:wght@100..400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Satisfy&family=Concert+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* ── Cinnamoroll Palette ── */
+            --navy: #3b6fa0;
+            --navy-mid: #4a82b8;
+            --navy-light: #6aa3d4;
+            --gold: #ffc4d9;
+            --gold-light: #ffc8dc;
+            --cream: #eef6fd;
+            --cream-soft: #ddeef9;
+            --text-dark: #2a4a6b;
+            --text-muted: #6a90b4;
+            --sky: #7ec8f0;
+            --sky-pale: rgba(126,200,240,0.15);
+            --white: #ffffff;
+            --border: rgba(126,200,240,0.35);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .section-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ── NAVBAR ── */
+        #navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+            background: rgba(58, 130, 195, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+            transition: all 0.3s ease;
+        }
+
+        #navbar.scrolled {
+            background: rgba(42, 100, 165, 0.98);
+            height: 60px;
+            box-shadow: 0 4px 30px rgba(59,111,160,0.4);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 38px; height: 38px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: var(--navy);
+        }
+
+        .nav-logo-text {
+            font-family: 'Playwrite DE SAS', cursive;
+            font-size: 1.4rem;
+            color: var(--white);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-light);
+            background: rgba(255,200,220,0.18);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .nav-mobile {
+            display: none;
+            position: fixed;
+            top: 70px; left: 0; right: 0;
+            background: rgba(58,130,195,0.97);
+            backdrop-filter: blur(12px);
+            z-index: 999;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-mobile.open { display: block; }
+
+        .nav-mobile a {
+            display: block;
+            text-decoration: none;
+            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            padding: 14px 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
+        }
+
+        .nav-mobile a:hover { color: var(--gold-light); background: rgba(255,200,220,0.12); }
+
+        .section-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        .section-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        section > *:not(.section-bg):not(.section-overlay) {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ── HERO ── */
+        #intro {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #5baee8 0%, #7ec8f0 35%, #a8dcf8 65%, #c8eeff 100%);
+            overflow: hidden;
+        }
+
+        #intro .section-overlay {
+            background: linear-gradient(to bottom, rgba(60,130,200,0.45) 0%, rgba(80,160,220,0.25) 50%, rgba(60,120,190,0.55) 100%);
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background-image:
+                radial-gradient(ellipse 60% 50% at 70% 30%, rgba(255,200,230,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 20% 70%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background-image: linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 140px 24px 80px;
+            max-width: 820px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.25);
+            border: 1px solid rgba(255,255,255,0.5);
+            color: var(--white);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 8px 20px;
+            border-radius: 100px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.7s ease both;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 8px;
+            animation: fadeInUp 0.7s 0.15s ease both;
+            text-shadow: 0 2px 20px rgba(59,111,160,0.3);
+        }
+
+        .hero-title span {
+            font-style: italic;
+            color: #ffc8dc;
+        }
+
+        .hero-sub {
+            font-family: 'Satisfy', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 28px;
+            animation: fadeInUp 0.7s 0.25s ease both;
+        }
+
+        .hero-desc-box {
+            background: rgba(81,142,180, 0.9);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 14px;
+            padding: 20px 28px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 36px;
+            animation: fadeInUp 0.7s 0.35s ease both;
+        }
+
+        .hero-desc-box a {
+            color: #ffc8dc;
+            text-decoration: none;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffc8dc;
+            color: #2a4a6b;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 16px 36px;
+            border-radius: 10px;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+            animation: fadeInUp 0.7s 0.45s ease both;
+        }
+
+        .hero-cta:hover {
+            background: #ffe0ec;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255,150,180,0.4);
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: rgba(255,255,255,0.55);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: fadeInUp 1s 0.8s ease both;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+            animation: scrollPulse 2s ease infinite;
+        }
+
+        /* ── SECTION COMMON ── */
+        section { position: relative; }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .section-divider .line {
+            width: 60px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .section-divider .dot {
+            width: 6px; height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        /* ── MENU SECTION ── */
+        #menu {
+            position: relative;
+            background: linear-gradient(180deg, #4a95d0 0%, #5baee8 50%, #4a95d0 100%);
+            padding: 100px 40px;
+            overflow: hidden;
+        }
+
+        #menu .section-overlay {
+            background: linear-gradient(180deg, rgba(58,120,190,0.80) 0%, rgba(70,140,210,0.70) 50%, rgba(58,120,190,0.82) 100%);
+        }
+
+        #menu .section-title { color: var(--white); }
+        #menu .section-tag { color: #ffc8dc; }
+
+        .menu-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .menu-card {
+            background: rgba(81,142,180,0.8);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s;
+        }
+
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { padding-left: 6px; }
+
+        .menu-item-img {
+            width: 160px; height: 160px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .menu-item-info { flex: 1; }
+
+        .menu-item-name {
+            font-family: 'Concert One', sans-serif;
+            font-size: 1.6rem;
+            color: rgb(255, 220, 180);
+            margin-bottom: 6px;
+        }
+
+        .menu-item-price {
+            display: flex;
+            gap: 12px;
+        }
+
+        .price-tag {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.9);
+            background: rgba(255,200,220,0.25);
+            border: 1px solid rgba(255,200,220,0.4);
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* ── BUNDLING SECTION ── */
+        #bundling {
+            position: relative;
+            background: var(--cream);
+            padding: 100px 40px;
+            overflow: hidden;
+        }
+
+        #bundling .section-overlay {
+            background: linear-gradient(160deg, rgba(238,246,253,0.9) 0%, rgba(221,238,249,0.82) 50%, rgba(238,246,253,0.20) 100%);
+        }
+
+        .bundling-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        /* ── BUNDLE CARD — Cinnamoroll blue, transparan + blurry ── */
+        .bundle-card {
+            background: rgba(59, 111, 160, 0.55);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid rgba(255, 200, 230, 0.60);
+            border-radius: 20px;
+            padding: 28px 24px 24px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            box-shadow: 0 4px 24px rgba(255, 150, 190, 0.20), inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .bundle-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, rgba(255,220,240,0.35) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .bundle-card::after {
+            content: '';
+            position: absolute;
+            top: -60px; left: -60px;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(255,200,225,0.40) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .bundle-card:hover {
+            transform: translateY(-6px);
+            background: rgba(59, 111, 160, 0.72);
+            box-shadow: 0 20px 40px rgba(255, 120, 170, 0.25), inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        .bundle-badge {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: rgba(255, 206, 224, 0.85);
+            color: #2a4a6b;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(6px);
+        }
+
+        .bundle-title {
+            font-family: 'Concert One', sans-serif;
+            font-size: 1.5rem;
+            color: var(--white); 
+            margin-bottom: 16px;
+            line-height: 1.3;
+            padding-right: 70px;
+        }
+
+        .bundle-items {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .bundle-items li {
+            color: rgba(255,255,255,0.88);
+            font-size: 0.87rem;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(90,160,220,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bundle-items li:last-child { border-bottom: none; }
+
+        .bundle-items li::before {
+            content: "✦";
+            color: var(--gold);
+            font-size: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .bundle-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid rgba(126,200,240,0.4);
+        }
+
+        .price-original {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.55);
+            text-decoration: line-through;
+        }
+
+        .price-final {
+            font-family: 'Concert One', sans-serif;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .price-save {
+            background: rgba(255,255,255,0.15);
+            color: var(--white);
+            font-size: 0.73rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* ── ABOUT SECTION ── */
+        #about {
+            background: linear-gradient(135deg, #5baee8 0%, #7ec8f0 50%, #5baee8 100%);
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #about .section-overlay {
+            background: linear-gradient(135deg, rgba(58,130,195,0.70) 0%, rgba(80,160,220,0.60) 50%, rgba(58,120,190,0.72) 100%);
+        }
+
+        #about .about-inner {
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* ── CONTACT SECTION ── */
+        #contact {
+            position: relative;
+            background: var(--cream-soft);
+            padding: 100px 40px;
+            overflow: hidden;
+        }
+
+        #contact .section-overlay {
+            background: rgba(245, 237, 224, 0.85);
+        }
+
+        .about-card {
+            background: rgba(255,255,255,0.22);
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 24px;
+            padding: 56px 56px 48px;
+            backdrop-filter: blur(12px);
+        }
+
+        .about-card .section-title { color: var(--white); margin-bottom: 6px; }
+        .about-card .section-tag { color: #ffc8dc; }
+
+        .about-text {
+            color: rgba(255,255,255,0.88);
+            font-size: 1rem;
+            line-height: 1.85;
+            margin: 24px 0;
+        }
+
+        .about-text a { color: #ffc8dc; text-decoration: none; }
+        .about-text a:hover { text-decoration: underline; }
+
+        .about-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffc8dc;
+            color: #2a4a6b;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 15px 34px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .about-cta:hover {
+            background: #ffe0ec;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255,150,180,0.35);
+        }
+
+        /* ── CONTACT SECTION ── */
+        #contact {
+            background: var(--cream-soft);
+            padding: 100px 40px;
+        }
+
+        .contact-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .contact-info-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 44px 40px;
+            border: 1px solid rgba(126,200,240,0.3);
+            box-shadow: 0 4px 24px rgba(59,111,160,0.08);
+        }
+
+        .contact-info-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 28px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .contact-detail-icon {
+            width: 42px; height: 42px;
+            background: var(--sky-pale);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--sky);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-detail-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .contact-detail-text a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-detail-text a:hover { color: var(--sky); }
+
+        .map-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--navy);
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+
+        .map-btn:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+        }
+
+        .contact-form-card {
+            background: linear-gradient(145deg, #3b8fd4, #4fa8e8);
+            border-radius: 20px;
+            padding: 44px 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .contact-form-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 28px;
+        }
+
+        .form-field { margin-bottom: 20px; }
+
+        .form-field input,
+        .form-field textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: var(--white);
+            font-size: 0.95rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-field input::placeholder,
+        .form-field textarea::placeholder { color: rgba(255,255,255,0.55); }
+
+        .form-field input:focus,
+        .form-field textarea:focus {
+            border-color: rgba(200,169,110,0.5);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .form-field textarea { resize: vertical; min-height: 120px; }
+
+        .form-submit {
+            background: #ffc8dc;
+            color: #2a4a6b;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-submit:hover {
+            background: #ffe0ec;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255,150,180,0.3);
+        }
+
+        /* ════════════════════════════════════════════
+           ── NEW SECTION 1: CAFE ATMOSPHERE / GALLERY ──
+           ════════════════════════════════════════════ */
+        #atmosphere {
+            position: relative;
+            background: linear-gradient(160deg, #4a95d0 0%, #6ab8e8 50%, #4a90cc 100%);
+            padding: 100px 40px;
+            overflow: hidden;
+        }
+
+        #atmosphere .section-overlay {
+            background: linear-gradient(160deg, rgba(50,110,180,0.72) 0%, rgba(70,145,215,0.62) 50%, rgba(50,110,180,0.75) 100%);
+        }
+
+        #atmosphere .section-title { color: var(--white); }
+        #atmosphere .section-tag { color: #ffc8dc; }
+
+        /* Video upload area */
+        /* ── Atmosphere Layout ── */
+        /* ── Atmosphere Layout ── */
+        .atmosphere-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 3fr;  /* video lebih kecil, cards lebih lebar */
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* ── Video Panel ── */
+        .atm-video-panel {
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            max-width: 410px;
+        }
+
+        .atm-video-panel video {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            object-fit: cover;
+            display: block;
+            border-radius: 20px;
+        }
+
+        /* ── Info Stack ── */
+        .atm-info-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .atm-info-card {
+            background: rgba(126, 200, 240, 0.22);
+            border: 1px solid rgba(200,235,255,0.45);
+            border-radius: 16px;
+            padding: 24px 28px;
+            backdrop-filter: blur(14px);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .atm-info-card:hover {
+            transform: translateX(6px);
+            background: rgba(126,200,240,0.35);
+        }
+
+        .atm-info-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .atm-info-title {
+            font-family: 'Concert One', sans-serif;
+            font-size: 1.75rem;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .atm-info-text {
+            font-size: 1.04rem;
+            color: rgba(255,255,255,0.78);
+            line-height: 1.65;
+        }
+
+        /* ── REVIEWS SECTION ── */
+        #reviews {
+            position: relative;
+            background: var(--cream);
+            padding: 100px 40px;
+            overflow: hidden;
+        }
+
+        #reviews .section-overlay {
+            background: linear-gradient(160deg, rgba(238,246,253,0.88) 0%, rgba(221,238,249,0.75) 100%);
+        }
+
+        #reviews .section-title { color: var(--text-dark); }
+
+        .reviews-carousel-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .reviews-track-outer {
+            overflow: hidden;
+            border-radius: 20px;
+        }
+
+        .reviews-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reviews-slide {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            min-width: 100%;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.65);
+            border: 1px solid rgba(126,200,240,0.35);
+            border-radius: 20px;
+            padding: 28px 26px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 4px 20px rgba(59,111,160,0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 36px rgba(59,111,160,0.16);
+        }
+
+        .review-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 12px; right: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: rgba(126,200,240,0.3);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .review-stars {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 14px;
+        }
+
+        .review-stars i { color: #f7a8c4; font-size: 0.9rem; }
+
+        .review-text {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            line-height: 1.75;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(126,200,240,0.25);
+        }
+
+        .review-avatar {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            border: 2px solid rgba(126,200,240,0.4);
+        }
+
+        .review-name { font-weight: 600; font-size: 0.9rem; color: var(--text-dark); }
+        .review-date { font-size: 0.78rem; color: var(--text-muted); }
+
+        /* Carousel controls */
+        .reviews-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 36px;
+        }
+
+        .reviews-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(126,200,240,0.25);
+            border: 1px solid rgba(126,200,240,0.5);
+            color: var(--navy);
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .reviews-btn:hover {
+            background: rgba(126,200,240,0.5);
+            transform: scale(1.08);
+        }
+
+        .reviews-dots {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .reviews-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(126,200,240,0.4);
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s;
+            padding: 0;
+        }
+
+        .reviews-dot.active {
+            background: var(--navy);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .reviews-slide-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: linear-gradient(135deg, #3b8fd4, #5baee8);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Satisfy', cursive;
+            font-size: 1.6rem;
+            color: var(--white);
+        }
+
+        .footer-copy {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.85rem;
+        }
+
+        .footer-copy a { color: #ffc8dc; text-decoration: none; }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.4; transform: scaleY(1); }
+            50%       { opacity: 0.9; transform: scaleY(1.15); }
+        }
+
+        @keyframes floatCloud {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .menu-layout { grid-template-columns: 1fr; }
+            .bundling-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: 1fr; }
+            #navbar { padding: 0 20px; }
+            .nav-links { display: none; }
+            .nav-toggle { display: block; }
+            .atmosphere-layout { grid-template-columns: 1fr; }
+            .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .bundling-grid { grid-template-columns: 1fr; }
+            #menu, #bundling, #about, #contact, #atmosphere, #reviews { padding: 70px 20px; }
+            .about-card { padding: 36px 24px; }
+            .contact-info-card, .contact-form-card { padding: 32px 24px; }
+            .reviews-grid { grid-template-columns: 1fr; }
+            .reviews-video-upload { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── NAVBAR ── -->
+    <nav id="navbar">
+        <a href="#intro" class="nav-logo">
+            <img src="logo1.PNG" alt="logo" style="width:38px;height:38px;border-radius:50%;object-fit:cover;">
+            <span class="nav-logo-text">Asa Cafe</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#intro">Intro</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#bundling">Bundling</a></li>
+            <li><a href="#atmosphere">Suasana</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="nav-mobile" id="navMobile">
+        <a href="#intro">Intro</a>
+        <a href="#menu">Menu</a>
+        <a href="#bundling">Bundling</a>
+        <a href="#atmosphere">Suasana</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- ── HERO ── -->
+    <section id="intro">
+        <img class="section-bg" src="Cinna1.jpg" alt="Hero Background" id="bg-intro">
+        <div class="section-overlay"></div>
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-star"></i> Your Daily Energy Booster</div>
+            <div class="hero-desc-box">
+                <h1 class="hero-title"><span>Asa</span> Cafe</h1>
+                <p class="hero-sub">Coffee · Pastries · Good Vibes</p>
+            </div>
+            <div class="hero-desc-box">
+                Some places feel like home the moment you walk in — and that's exactly what Asa Cafe was made to be. Born from a passion for good coffee and cozy moments, this is a little dream brought to life by Anisa Nindita, a student of MAN 1 Yogyakarta. Every menu item is crafted with care, every corner designed for comfort, and every customer treated like a friend. Curious about something, have suggestions, or just want to say hi? please
+                <a href="https://wa.me/+6287847489052" target="_blank">send us a message</a>
+                — we'd love to hear from you!
+            </div>
+            <a href="#menu" class="hero-cta">
+                <i class="fas fa-mug-hot"></i>
+                Explore Our Menu
+            </a>
+        </div>
+        <div class="hero-scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ── MENU ── -->
+    <section id="menu">
+        <video class="section-bg" autoplay muted loop playsinline>
+            <source src="Vid4.mp4" type="video/mp4">
+        </video>
+        <div class="section-header reveal">
+            <div class="hero-desc-box">
+                <div class="section-tag">✦ What We Serve ✦</div>
+                <h2 class="section-title" style="color: var(--white);">Our Cafe Menu</h2>
+                <div class="section-divider">
+                    <div class="line" style="background: rgba(200,169,110,0.4);"></div>
+                    <div class="dot"></div>
+                    <div class="line" style="background: rgba(200,169,110,0.4);"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-layout">
+            <div class="menu-card reveal">
+                <div class="menu-card-title"><i class="fas fa-bread-slice"></i> Food & Pastries</div>
+                <div class="menu-item">
+                    <img src="croissant.jpg" alt="Buttered Croissant" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Buttered Croissant</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="pastry.jpg" alt="Soft Pretzel Salt" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Soft Pretzel Salt</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="Pancakes.jpg" alt="Strawberry Waffles" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Strawberry Waffles</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="Cookie.jpg" alt="Chocolate Cookie" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Chocolate Cookie</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-card reveal" style="transition-delay: 0.1s;">
+                <div class="menu-card-title"><i class="fas fa-glass-water"></i> Beverages</div>
+                <div class="menu-item">
+                    <img src="matcha.jpg" alt="Iced Matcha Latte" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Iced Matcha Latte</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="Lotus.jpg" alt="Hot Milky Lotus Biscoff" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Hot Milky Lotus Biscoff</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="Cookiesncream.jpg" alt="Iced Cookies n Cream" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Iced Cookies n Cream</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="Americano.jpg" alt="Hot/Iced Americano" class="menu-item-img">
+                    <div class="menu-item-info">
+                        <div class="menu-item-name">Hot / Iced Americano</div>
+                        <div class="menu-item-price">
+                            <span class="price-tag">S — 20K</span>
+                            <span class="price-tag">L — 25K</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── BUNDLING ── -->
+    <section id="bundling">
+        <video class="section-bg" autoplay muted loop playsinline>
+            <source src="Vid1.mp4" type="video/mp4">
+        </video>
+        <div class="section-header reveal">
+                <div style="
+                    display: inline-block;
+                    background: rgba(255,255,255,0.18);
+                    border: 1px solid rgba(255,255,255,0.45);
+                    border-radius: 20px;
+                    padding: 28px 48px;
+                    text-align: center;
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    box-shadow: 0 8px 32px rgba(59,111,160,0.12), inset 0 1px 0 rgba(255,255,255,0.4);
+                ">
+                    <div class="section-tag">✦ Promo Spesial ✦</div>
+                    <h2 class="section-title">Bundling Menu</h2>
+                    <div class="section-divider">
+                        <div class="line"></div>
+                        <div class="dot"></div>
+                        <div class="line"></div>
+                    </div>
+                    <p style="color: var(--text-muted); margin-top: 14px; font-size: 0.95rem;">Hemat lebih banyak, nikmati lebih banyak!</p>
+                </div>
+            </div>
+
+        <div class="bundling-grid">
+
+            <div class="bundle-card reveal">
+                <span class="bundle-badge">Best Seller!</span>
+                <div class="bundle-title">Morning Starter ☀️</div>
+                <ul class="bundle-items">
+                    <li>Buttered Croissant (S)</li>
+                    <li>Hot/Iced Americano (S)</li>
+                    <li>Chocolate Cookie (1 pcs)</li>
+                </ul>
+                <div class="bundle-footer">
+                    <div>
+                        <div class="price-original">Rp 60.000</div>
+                        <div class="price-final">Rp 50K</div>
+                    </div>
+                    <span class="price-save">Hemat 10K</span>
+                </div>
+            </div>
+
+            <div class="bundle-card reveal" style="transition-delay: 0.08s;">
+                <span class="bundle-badge">Most Popular</span>
+                <div class="bundle-title">Matcha Lover 🍵</div>
+                <ul class="bundle-items">
+                    <li>Iced Matcha Latte (L)</li>
+                    <li>Strawberry Waffles (S)</li>
+                    <li>Soft Pretzel Salt (S)</li>
+                </ul>
+                <div class="bundle-footer">
+                    <div>
+                        <div class="price-original">Rp 65.000</div>
+                        <div class="price-final">Rp 55K</div>
+                    </div>
+                    <span class="price-save">Hemat 10K</span>
+                </div>
+            </div>
+
+            <div class="bundle-card reveal" style="transition-delay: 0.16s;">
+                <div class="bundle-title">Sweet Treat 🍪</div>
+                <ul class="bundle-items">
+                    <li>Iced Cookies n Cream (L)</li>
+                    <li>Chocolate Cookie (1 pcs)</li>
+                    <li>Buttered Croissant (S)</li>
+                </ul>
+                <div class="bundle-footer">
+                    <div>
+                        <div class="price-original">Rp 65.000</div>
+                        <div class="price-final">Rp 55K</div>
+                    </div>
+                    <span class="price-save">Hemat 10K</span>
+                </div>
+            </div>
+
+            <div class="bundle-card reveal" style="transition-delay: 0.24s;">
+                <span class="bundle-badge">Couple</span>
+                <div class="bundle-title">Couple Set 💑</div>
+                <ul class="bundle-items">
+                    <li>2x Hot/Iced Americano (S)</li>
+                    <li>Strawberry Waffles (L)</li>
+                    <li>Soft Pretzel Salt (S)</li>
+                    <li>Chocolate Cookie (2 pcs)</li>
+                </ul>
+                <div class="bundle-footer">
+                    <div>
+                        <div class="price-original">Rp 105.000</div>
+                        <div class="price-final">Rp 90K</div>
+                    </div>
+                    <span class="price-save">Hemat 15K</span>
+                </div>
+            </div>
+
+            <div class="bundle-card reveal" style="transition-delay: 0.32s;">
+                <div class="bundle-title">Biscoff Dream 🍂</div>
+                <ul class="bundle-items">
+                    <li>Hot Milky Lotus Biscoff (L)</li>
+                    <li>Buttered Croissant (L)</li>
+                    <li>Chocolate Cookie (1 pcs)</li>
+                </ul>
+                <div class="bundle-footer">
+                    <div>
+                        <div class="price-original">Rp 65.000</div>
+                        <div class="price-final">Rp 55K</div>
+                    </div>
+                    <span class="price-save">Hemat 10K</span>
+                </div>
+            </div>
+
+            <div class="bundle-card reveal" style="transition-delay: 0.40s;">
+                <span class="bundle-badge">Value</span>
+                <div class="bundle-title">Study Gang 📚</div>
+                <ul class="bundle-items">
+                    <li>3x Iced Americano (S)</li>
+                    <li>Soft Pretzel Salt (S)</li>
+                    <li>Strawberry Waffles (S)</li>
+                    <li>Chocolate Cookie (3 pcs)</li>
+                </ul>
+                <div class="bundle-footer">
+                    <div>
+                        <div class="price-original">Rp 145.000</div>
+                        <div class="price-final">Rp 125K</div>
+                    </div>
+                    <span class="price-save">Hemat 20K</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         ── NEW SECTION 1: CAFE ATMOSPHERE ──
+         Ganti src="Vid5.mp4" di bawah dengan video suasana cafe kamu.
+         ══════════════════════════════════════════════════════════ -->
+    <section id="atmosphere">
+        <video class="section-bg" autoplay muted loop playsinline>
+            <source src="Vid3.mp4" type="video/mp4">
+        </video>
+        <div class="section-overlay"></div>
+
+        <div class="section-header reveal">
+            <div class="section-tag">✦ Feel The Vibe ✦</div>
+            <h2 class="section-title">Suasana Cafe Kami</h2>
+            <div class="section-divider">
+                <div class="line" style="background: rgba(255,255,255,0.3);"></div>
+                <div class="dot"></div>
+                <div class="line" style="background: rgba(255,255,255,0.3);"></div>
+            </div>
+            <p style="color: rgba(255,255,255,0.75); margin-top: 14px; font-size: 0.95rem;">Tempat nyaman untuk belajar, ngobrol, dan menikmati hari</p>
+        </div>
+
+        <div class="atmosphere-layout">
+
+            <!-- Video panel + upload area -->
+            <div class="atm-video-panel reveal">
+                <video autoplay muted loop playsinline>
+                    <source src="Vid5.mp4" type="video/mp4" width = "70%">
+                </video>
+            </div>
+
+            <!-- Info cards -->
+            <div class="atm-info-stack">
+
+                <div class="atm-info-card reveal" style="transition-delay: 0.1s;">
+                    <div class="atm-info-title">☁️ Suasana Dreamy & Cozy</div>
+                    <div class="atm-info-text">Dekorasi bernuansa biru langit dan putih memberikan ketenangan layaknya berada di bawah awan Cinnamoroll — sempurna untuk bersantai setelah hari yang panjang.</div>
+                </div>
+
+                <div class="atm-info-card reveal" style="transition-delay: 0.18s;">
+                    <div class="atm-info-title">🎵 Musik Lo-fi & Chill</div>
+                    <div class="atm-info-text">Nikmati alunan musik lo-fi yang menenangkan, cocok untuk fokus belajar, journaling, maupun sekadar melamun dengan secangkir kopi hangat di tangan.</div>
+                </div>
+
+                <div class="atm-info-card reveal" style="transition-delay: 0.26s;">
+                    <div class="atm-info-title">📍 Lokasi Strategis</div>
+                    <div class="atm-info-text">Berada di Jl. C. Simanjuntak 60, mudah dijangkau dari berbagai penjuru kota. Parkir tersedia dan Wi-Fi kencang untuk teman kerja atau belajar.</div>
+                </div>
+
+                <div class="atm-info-card reveal" style="transition-delay: 0.34s;">
+                    <div class="atm-info-title">🕐 Jam Operasional</div>
+                    <div class="atm-info-text">Senin – Jumat: 08.00 – 21.00<br>Sabtu – Minggu: 09.00 – 22.00<br>Hari libur nasional menyesuaikan — cek Instagram kami untuk info terbaru.</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+                <section id="reviews">
+                <video class="section-bg" autoplay muted loop playsinline>
+                    <source src="Vid7.mp4" type="video/mp4">
+                </video>
+                <div class="section-overlay"></div>
+
+                <div class="section-header reveal">
+                    <div class="section-tag">✦ Kata Mereka ✦</div>
+                    <h2 class="section-title">Review Pelanggan</h2>
+                    <div class="section-divider">
+                        <div class="line"></div>
+                        <div class="dot"></div>
+                        <div class="line"></div>
+                    </div>
+                    <p style="color: var(--text-muted); margin-top: 14px; font-size: 0.95rem;">Pengalaman nyata dari pelanggan setia kami 💙</p>
+                </div>
+
+                <div class="reviews-carousel-wrap reveal">
+                    <div class="reviews-track-outer">
+                        <div class="reviews-track" id="reviewsTrack">
+
+                            <!-- SLIDE 1 -->
+                            <div class="reviews-slide">
+                                <div class="review-card">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="review-text">"Matcha latte-nya enak banget, nggak terlalu manis dan creamy sempurna. Tempatnya juga bikin betah berlama-lama. Pasti balik lagi!"</p>
+                                    <div class="review-author">
+                                        <div class="review-avatar" style="background: rgba(126,200,240,0.2);">🌸</div>
+                                        <div>
+                                            <div class="review-name">Zahra Aulia</div>
+                                            <div class="review-date">Mei 2025 · via Instagram</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-card">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="review-text">"Croissant-nya krispy di luar, lembut di dalam. Beli dua langsung habis! Bundle Morning Starter worth banget buat sarapan sebelum sekolah."</p>
+                                    <div class="review-author">
+                                        <div class="review-avatar" style="background: rgba(255,200,220,0.3);">☁️</div>
+                                        <div>
+                                            <div class="review-name">Rizky Pratama</div>
+                                            <div class="review-date">April 2025 · via WhatsApp</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-card">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                    </div>
+                                    <p class="review-text">"Suka banget sama dekorasi cafenya, aesthetic dan fotonya selalu bagus di sini. Cookies n Cream-nya juga jadi favorit kelompok belajarku."</p>
+                                    <div class="review-author">
+                                        <div class="review-avatar" style="background: rgba(126,200,240,0.25);">✨</div>
+                                        <div>
+                                            <div class="review-name">Nadia Putri</div>
+                                            <div class="review-date">April 2025 · via Google Maps</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SLIDE 2 -->
+                            <div class="reviews-slide">
+                                <div class="review-card">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="review-text">"Study Gang bundle-nya perfect banget buat kita berenam yang lagi ujian. Hemat, kenyang, fokus. Americano-nya pun nggak kalah enak sama cafe besar!"</p>
+                                    <div class="review-author">
+                                        <div class="review-avatar" style="background: rgba(200,235,255,0.3);">📚</div>
+                                        <div>
+                                            <div class="review-name">Farhan Darmawan</div>
+                                            <div class="review-date">Maret 2025 · via Instagram</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-card">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="review-text">"Biscoff Dream adalah pilihan terbaik hidupku. Serius. Hot Milky Lotus Biscoff-nya hangat, manis, bikin mood langsung naik 100%."</p>
+                                    <div class="review-author">
+                                        <div class="review-avatar" style="background: rgba(255,200,220,0.25);">🍂</div>
+                                        <div>
+                                            <div class="review-name">Siti Rahma</div>
+                                            <div class="review-date">Maret 2025 · via WhatsApp</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="review-card">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="review-text">"Ownernya ramah banget, pelayanannya cepat dan nggak bikin nunggu lama. Strawberry Waffles-nya juga instagramable! Highly recommended buat yang di Jogja."</p>
+                                    <div class="review-author">
+                                        <div class="review-avatar" style="background: rgba(126,200,240,0.2);">🧇</div>
+                                        <div>
+                                            <div class="review-name">Andin Kusuma</div>
+                                            <div class="review-date">Februari 2025 · via Google Maps</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="reviews-controls">
+                        <button class="reviews-btn" id="reviewsPrev"><i class="fas fa-chevron-left"></i></button>
+                        <div class="reviews-dots" id="reviewsDots"></div>
+                        <button class="reviews-btn" id="reviewsNext"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <div class="reviews-slide-label" id="reviewsLabel">SLIDE 1 / 2</div>
+                </div>
+            </section>
+        <!-- ── ABOUT ── -->
+    <section id="about">
+        <video class="section-bg" autoplay muted loop playsinline>
+            <source src="Vid2.mp4" type="video/mp4">
+        </video>
+        <div class="section-overlay"></div>
+        <div class="about-inner reveal">
+            <div class="about-card">
+                <div class="section-tag">✦ Who We Are ✦</div>
+                <h2 class="section-title" style="margin-top: 8px;">About Our Cafe</h2>
+                <div class="section-divider" style="justify-content: center;">
+                    <div class="line" style="background: rgba(200,169,110,0.4);"></div>
+                    <div class="dot"></div>
+                    <div class="line" style="background: rgba(200,169,110,0.4);"></div>
+                </div>
+                <p class="about-text">
+                    My cafe is a place for everybody who needs a nice coffee and a great spot for
+                    hanging out with friends, discussing everything life has to offer.
+                </p>
+                <p class="about-text">
+                    If you wish to <a href="https://www.blog.agustik.com" target="_blank">support us</a>,
+                    please make a reservation. That would be very helpful. Another way is to tell your friends
+                    about my cafe — thank you!
+                </p>
+                <a href="#contact" class="about-cta">
+                    <i class="far fa-comments"></i>
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact">
+        <video class="section-bg" autoplay muted loop playsinline>
+            <source src="Vid2.mp4" type="video/mp4">
+        </video>
+        <div class="section-header reveal">
+                <div style="
+                    display: inline-block;
+                    background: rgba(255,255,255,0.18);
+                    border: 1px solid rgba(255,255,255,0.40);
+                    border-radius: 20px;
+                    padding: 28px 48px;
+                    text-align: center;
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
+                    box-shadow: 0 8px 32px rgba(59,111,160,0.18), inset 0 1px 0 rgba(255,255,255,0.35);
+                ">
+                    <div class="section-tag">✦ Find Us ✦</div>
+                    <h2 class="section-title">Get In Touch</h2>
+                    <div class="section-divider">
+                        <div class="line" style="background: rgba(255,255,255,0.3);"></div>
+                        <div class="dot"></div>
+                        <div class="line" style="background: rgba(255,255,255,0.3);"></div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="contact-grid">
+
+            <div class="contact-info-card reveal">
+                <h3>Contact Us</h3>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-detail-text">Jl. C. Simanjuntak 60<br>Yogyakarta</div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fas fa-phone"></i></div>
+                    <div class="contact-detail-text">
+                        <a href="tel:087847489052">087847489052</a>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-detail-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-detail-text">
+                        <a href="mailto:anisanindita02@gmail.com">anisanindita02@gmail.com</a>
+                    </div>
+                </div>
+                <a href="https://goo.gl/maps/dXViG2rdqh7XozfL6" target="_blank" class="map-btn">
+                    <i class="fas fa-map-marked-alt"></i>
+                    Open Maps
+                </a>
+            </div>
+
+            <div class="contact-form-card reveal" style="transition-delay: 0.1s;">
+                <h3>Send Message</h3>
+                <form action="" method="POST">
+                    <div class="form-field">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-field">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-field">
+                        <textarea name="message" placeholder="Your message..." required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Send Message</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <div class="footer-logo">Asa Cafe</div>
+        <div class="footer-copy">
+            Copyright &copy; 2024 Asa Cafe. All rights reserved. &nbsp;|&nbsp;
+            Design: <a href="https://www.instagram.com/truly.asaa" target="_blank">Asa.com</a>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navMobile = document.getElementById('navMobile');
+        navToggle.addEventListener('click', () => {
+            navMobile.classList.toggle('open');
+        });
+
+        navMobile.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => navMobile.classList.remove('open'));
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Parallax background images
+        document.querySelectorAll('img.section-bg').forEach(img => {
+            if (!img.getAttribute('src')) img.style.display = 'none';
+        });
+
+        function applyParallax() {
+            document.querySelectorAll('img.section-bg').forEach(img => {
+                if (!img.getAttribute('src')) return;
+                const section = img.closest('section');
+                const rect = section.getBoundingClientRect();
+                const vh = window.innerHeight;
+                if (rect.bottom < 0 || rect.top > vh) return;
+                const progress = (vh - rect.top) / (vh + rect.height);
+                const shift = (progress - 0.5) * 80;
+                img.style.transform = `translateY(${shift}px) scale(1.06)`;
+            });
+        }
+
+        window.addEventListener('scroll', applyParallax, { passive: true });
+        applyParallax();
+
+        // Reveal on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // ── VIDEO UPLOAD: Atmosphere Section ──
+        const atmInput = document.getElementById('atmVideoInput');
+        const atmPlayer = document.getElementById('atmVideoPlayer');
+        const atmName = document.getElementById('atmVideoName');
+
+        if (atmInput) {
+            atmInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (!file) return;
+                atmName.textContent = file.name;
+                const url = URL.createObjectURL(file);
+                atmPlayer.src = url;
+                atmPlayer.load();
+                atmPlayer.play().catch(() => {});
+            });
+        }
+
+        // ── VIDEO UPLOAD: Reviews Section ──
+        const reviewsInput = document.getElementById('reviewsVideoInput');
+        const reviewsPlayer = document.getElementById('reviewsVideoPlayer');
+        const reviewsVideoEl = document.getElementById('reviewsVideoEl');
+        const reviewsUploadArea = document.getElementById('reviewsVideoUploadArea');
+        const reviewsVideoName = document.getElementById('reviewsVideoName');
+
+        if (reviewsInput) {
+            reviewsInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (!file) return;
+                reviewsVideoName.textContent = file.name;
+                const url = URL.createObjectURL(file);
+                reviewsVideoEl.src = url;
+                reviewsVideoEl.load();
+                reviewsPlayer.style.display = 'block';
+                // Sembunyikan upload area setelah video dipilih
+                reviewsUploadArea.style.display = 'none';
+            });
+        }
+
+                    // ── REVIEWS CAROUSEL ──
+            (function () {
+                const track = document.getElementById('reviewsTrack');
+                const slides = track ? track.querySelectorAll('.reviews-slide') : [];
+                const dotsWrap = document.getElementById('reviewsDots');
+                const label = document.getElementById('reviewsLabel');
+                const total = slides.length;
+                let current = 0;
+                let timer;
+
+                if (!track || total === 0) return;
+
+                // Build dots
+                slides.forEach((_, i) => {
+                    const d = document.createElement('button');
+                    d.className = 'reviews-dot' + (i === 0 ? ' active' : '');
+                    d.addEventListener('click', () => goTo(i));
+                    dotsWrap.appendChild(d);
+                });
+
+                function goTo(idx) {
+                    current = (idx + total) % total;
+                    track.style.transform = `translateX(-${current * 100}%)`;
+                    dotsWrap.querySelectorAll('.reviews-dot').forEach((d, i) =>
+                        d.classList.toggle('active', i === current));
+                    label.textContent = `SLIDE ${current + 1} / ${total}`;
+                    resetTimer();
+                }
+
+                function resetTimer() {
+                    clearInterval(timer);
+                    timer = setInterval(() => goTo(current + 1), 4000);
+                }
+
+                document.getElementById('reviewsPrev').addEventListener('click', () => goTo(current - 1));
+                document.getElementById('reviewsNext').addEventListener('click', () => goTo(current + 1));
+
+                resetTimer();
+            })();
+    </script>
+
+</body>
+</html>
